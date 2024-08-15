@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "faststream-compressors"
-version = "0.1.0"
+version = "0.1.0.2"
 description = "A middleware for the FastStream framework to support message compression."
 repository = "https://github.com/ulbwa/faststream-compressors"
 authors = ["ульба <ulbwa@icloud.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11"
 faststream = "^0.5.18"
 lz4 = {version = "^4.3.3", optional = true}
 

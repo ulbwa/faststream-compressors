@@ -7,10 +7,12 @@ class NatsCompressionMiddleware(BaseCompressionMiddleware):
 
     @property
     def content_type(self) -> str | None:
-        return self.msg.headers["content-type"]
+        return self.msg.headers.get("content-type")
 
     @property
     def content_encoding(self) -> list[str] | None:
+        if "content-encoding" not in self.msg.headers:
+            return
         return list(map(str.strip, self.msg.headers["content-encoding"].split(",")))
 
 

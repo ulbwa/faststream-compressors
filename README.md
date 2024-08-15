@@ -31,7 +31,7 @@ broker = NatsBroker(middlewares=(compression_middleware,))
 You can submit a pull request to add support for middleware for your broker. I expect that FastStream will update its
 middleware API soon, allowing us to create a universal middleware for each broker. For now, only NATS is supported.
 
-| Compression Method | Is Supported? | Compressor                                                                                                          | Экстра зависимость            |
+| Compression Method | Is Supported? | Compressor                                                                                                          | Extra Dependency              |
 |--------------------|---------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------| 
 | gzip               | ✅             | `faststream_compressors.compressors.GzipCompressor`<br/>`faststream_compressors.compressors.GzipDecompressor`       |                               |
 | lz4                | ✅             | `faststream_compressors.compressors.lz4.Lz4Compressor`<br/>`faststream_compressors.compressors.lz4.Lz4Decompressor` | `faststream-compressors[lz4]` |

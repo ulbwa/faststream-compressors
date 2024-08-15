@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "faststream-compressors"
 version = "0.1.0"
-description = ""
+description = "A middleware for the FastStream framework to support message compression."
 authors = ["ульба <ulbwa@icloud.com>"]
 readme = "README.md"
 

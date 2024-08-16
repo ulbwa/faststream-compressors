@@ -46,11 +46,12 @@ You can submit a pull request to add support for decompression middleware for yo
 will update its middleware API soon, allowing us to create a universal middleware for each broker. For now, only 
 NATS is supported.
 
-| Compression Method | Is Supported? | Compressor                                                                                                          | Extra Dependency              |
-|--------------------|---------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------| 
-| gzip               | ✅             | `faststream_compressors.compressors.GzipCompressor`<br/>`faststream_compressors.compressors.GzipDecompressor`       |                               |
-| lz4                | ✅             | `faststream_compressors.compressors.lz4.Lz4Compressor`<br/>`faststream_compressors.compressors.lz4.Lz4Decompressor` | `faststream-compressors[lz4]` |
-| Other              | ❌             |                                                                                                                     |                               |
+| Compression Method | Is Supported? | Compressor                                                                                                          | Extra Dependency |
+|--------------------|---------------|---------------------------------------------------------------------------------------------------------------------|------------------| 
+| gzip               | ✅             | `faststream_compressors.compressors.GzipCompressor`<br/>`faststream_compressors.compressors.GzipDecompressor`       |                  |
+| lzma               | ✅             | `faststream_compressors.compressors.LzmaCompressor`<br/>`faststream_compressors.compressors.LzmaDecompressor`       |                  |
+| lz4                | ✅             | `faststream_compressors.compressors.lz4.Lz4Compressor`<br/>`faststream_compressors.compressors.lz4.Lz4Decompressor` | `lz4`            |
+| Other              | ❌             |                                                                                                                     |                  |
 
 You can submit a pull request to add support for your compression method or use your custom algorithm that adheres to
 the BaseCompressor interface.

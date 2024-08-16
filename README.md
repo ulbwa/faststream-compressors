@@ -5,7 +5,7 @@ A middleware for the FastStream framework to support message compression.
 ## ⚠️ Note: RPC Limitation
 
 Due to a bug in FastStream, middleware does not run after receiving a response from the broker, preventing message 
-decryption when using RPC. I've reported this issue to the FastStream developers, and we're hoping for a fix soon.
+decompression when using RPC. I've reported this issue to the FastStream developers, and we're hoping for a fix soon.
 
 In the meantime, you can register separate routers for RPC and Pub/Sub:
 

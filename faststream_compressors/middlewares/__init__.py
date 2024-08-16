@@ -12,47 +12,31 @@ from faststream_compressors.errors import UnknownEncoding
 from faststream_compressors.handler import CompressorHandler, DecompressorHandler
 
 
-class BaseCompressionMiddleware(BaseMiddleware):
+class BaseDecompressionMiddleware(BaseMiddleware):
     """
-    A base class for creating middleware to handle message compression and decompression.
+    A base class for creating middleware to handle message decompression.
 
-    This middleware is used to compress data before sending messages and decompress data upon receiving messages.
+    This middleware is used to decompress data upon receiving messages.
     """
 
-    def __init__(
-        self,
-        msg: Any,
-        *,
-        decompressors: Sequence[BaseCompressor],
-        compressors: Sequence[BaseCompressor] | None = None,
-    ):
+    def __init__(self, msg: Any, *, decompressors: Sequence[BaseCompressor]):
         self.decompressor_handler = DecompressorHandler(*decompressors)
-        self.compressor_handler = CompressorHandler(*compressors)
 
         super().__init__(msg)
 
     @classmethod
     def make_middleware(
-        cls,
-        decompressors: Sequence[BaseCompressor] | BaseCompressor,
-        compressors: Sequence[BaseCompressor] | BaseCompressor | None = None,
-    ) -> Callable[[Any], "BaseCompressionMiddleware"]:
+        cls, decompressors: Sequence[BaseCompressor] | BaseCompressor
+    ) -> Callable[[Any], "BaseDecompressionMiddleware"]:
         """
         Creates a partial function that can be used to instantiate the middleware.
 
         :param decompressors: A sequence of decompressors or a single decompressor to use for message decompression.
-        :param compressors: A sequence of compressors or a single compressor to use for message compression.
         :return: A partial function to instantiate the middleware.
         """
         if isinstance(decompressors, BaseCompressor):
             decompressors = (decompressors,)
-        if isinstance(compressors, BaseCompressor):
-            compressors = (compressors,)
-        return partial(
-            cls,
-            compressors=compressors,
-            decompressors=decompressors,
-        )
+        return partial(cls, decompressors=decompressors)
 
     @property
     @abstractmethod
@@ -72,18 +56,58 @@ class BaseCompressionMiddleware(BaseMiddleware):
         :return: A list of encodings applied to the message.
         """
 
+    @property
+    @abstractmethod
+    def body(self) -> bytes:
+        ...
+
+    @body.setter
+    @abstractmethod
+    def body(self, value: bytes) -> None:
+        ...
+
     async def on_receive(self) -> None:
         if not self.content_encoding:
             return
 
         try:
-            self.msg.data = self.decompressor_handler(
-                self.msg.data, *reversed(self.content_encoding)
+            self.body = self.decompressor_handler(
+                self.body, *reversed(self.content_encoding)
             )
         except UnknownEncoding as exception:
             logger.warning(f"{self.__class__.__name__}: {exception}")
         except Exception as exception:
             logger.error("Failed to decompress message:", exc_info=exception)
+
+
+class CompressionMiddleware(BaseMiddleware):
+    """
+    Middleware for compressing published messages
+    """
+
+    def __init__(
+        self,
+        msg: Any,
+        *,
+        compressors: Sequence[BaseCompressor] | None = None,
+    ):
+        self.compressor_handler = CompressorHandler(*compressors)
+
+        super().__init__(msg)
+
+    @classmethod
+    def make_middleware(
+        cls, compressors: Sequence[BaseCompressor] | BaseCompressor
+    ) -> Callable[[Any], "CompressionMiddleware"]:
+        """
+        Creates a partial function that can be used to instantiate the middleware.
+
+        :param compressors: A sequence of compressors or a single compressor to use for message compression.
+        :return: A partial function to instantiate the middleware.
+        """
+        if isinstance(compressors, BaseCompressor):
+            compressors = (compressors,)
+        return partial(cls, compressors=compressors)
 
     async def publish_scope(
         self,
@@ -111,4 +135,4 @@ class BaseCompressionMiddleware(BaseMiddleware):
         return await call_next(msg, *args, **kwargs)
 
 
-__all__ = ("BaseCompressionMiddleware",)
+__all__ = ("BaseDecompressionMiddleware", "CompressionMiddleware")

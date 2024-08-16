@@ -1,8 +1,8 @@
-from faststream_compressors.middlewares import BaseCompressionMiddleware
+from faststream_compressors.middlewares import BaseDecompressionMiddleware
 from nats.aio.msg import Msg
 
 
-class NatsCompressionMiddleware(BaseCompressionMiddleware):
+class NatsDecompressionMiddleware(BaseDecompressionMiddleware):
     msg: Msg | None
 
     @property
@@ -15,5 +15,13 @@ class NatsCompressionMiddleware(BaseCompressionMiddleware):
             return
         return list(map(str.strip, self.msg.headers["content-encoding"].split(",")))
 
+    @property
+    def body(self) -> bytes:
+        return self.msg.data
 
-__all__ = ("NatsCompressionMiddleware",)
+    @body.setter
+    def body(self, value: bytes):
+        self.msg.data = value
+
+
+__all__ = ("NatsDecompressionMiddleware",)

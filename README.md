@@ -8,28 +8,33 @@ A middleware for the FastStream framework to support message compression.
 from faststream.nats import NatsBroker
 
 from faststream_compressors.compressors import GzipCompressor, GzipDecompressor
-from faststream_compressors.compressors.lz4 import Lz4Decompressor  # pip install "faststream_compressors[lz4]"
-from faststream_compressors.middlewares.nats import NatsCompressionMiddleware
+from faststream_compressors.middlewares import CompressionMiddleware
+from faststream_compressors.middlewares.nats import NatsDecompressionMiddleware
 
-compression_middleware = NatsCompressionMiddleware.make_middleware(
-    # Compression methods used for decompressing messages.
-    # The order does not matter here.
-    decompressors=(GzipDecompressor(), Lz4Decompressor()),
-    # Compression methods used for compressing messages.
-    # The order in which compressors are specified matters.
-    compressors=GzipCompressor(),
+
+broker = NatsBroker(    
+    middlewares=(
+        # Compression methods used for compressing messages.
+        # The order in which compressors are specified matters.
+        CompressionMiddleware.make_middleware(compressors=GzipCompressor()),
+        
+        # Your other middlewares here
+
+        # Compression methods used for decompressing messages.
+        # The order does not matter here
+        NatsDecompressionMiddleware.make_middleware(decompressors=GzipDecompressor()),
+    )
 )
-
-broker = NatsBroker(middlewares=(compression_middleware,))
 ```
 
-| Broker | Is Supported? | Middleware                                               |
-|--------|---------------|----------------------------------------------------------|
-| NATS   | ✅             | `faststream_compressors.middlewares.nats.NatsMiddleware` |
-| Other  | ❌             |                                                          |
+| Broker | Is Supported? | Middleware                                                            |
+|--------|---------------|-----------------------------------------------------------------------|
+| NATS   | ✅             | `faststream_compressors.middlewares.nats.NatsDecompressionMiddleware` |
+| Other  | ❌             |                                                                       |
 
-You can submit a pull request to add support for middleware for your broker. I expect that FastStream will update its
-middleware API soon, allowing us to create a universal middleware for each broker. For now, only NATS is supported.
+You can submit a pull request to add support for decompression middleware for your broker. I expect that FastStream 
+will update its middleware API soon, allowing us to create a universal middleware for each broker. For now, only 
+NATS is supported.
 
 | Compression Method | Is Supported? | Compressor                                                                                                          | Extra Dependency              |
 |--------------------|---------------|---------------------------------------------------------------------------------------------------------------------|-------------------------------| 
@@ -45,8 +50,8 @@ from faststream import FastStream, Header
 from faststream.nats import NatsBroker
 
 from faststream_compressors.compressors import BaseCompressor
-
-from faststream_compressors.middlewares.nats import NatsCompressionMiddleware
+from faststream_compressors.middlewares import CompressionMiddleware
+from faststream_compressors.middlewares.nats import NatsDecompressionMiddleware
 
 
 class MyCompressor(BaseCompressor):
@@ -56,11 +61,12 @@ class MyCompressor(BaseCompressor):
         return bytes(byte ^ 1 for byte in data)
 
 
-compression_middleware = NatsCompressionMiddleware.make_middleware(
-    decompressors=MyCompressor(), compressors=MyCompressor()
+broker = NatsBroker(
+    middlewares=(
+        CompressionMiddleware.make_middleware(compressors=MyCompressor()),
+        NatsDecompressionMiddleware.make_middleware(decompressors=MyCompressor()),
+    )
 )
-
-broker = NatsBroker(middlewares=(compression_middleware,))
 app = FastStream(broker)
 
 

@@ -85,12 +85,7 @@ class CompressionMiddleware(BaseMiddleware):
     Middleware for compressing published messages
     """
 
-    def __init__(
-        self,
-        msg: Any,
-        *,
-        compressors: Sequence[BaseCompressor] | None = None,
-    ):
+    def __init__(self, msg: Any, *, compressors: Sequence[BaseCompressor]):
         self.compressor_handler = CompressorHandler(*compressors)
 
         super().__init__(msg)

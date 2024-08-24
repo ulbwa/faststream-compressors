@@ -58,13 +58,11 @@ class BaseDecompressionMiddleware(BaseMiddleware):
 
     @property
     @abstractmethod
-    def body(self) -> bytes:
-        ...
+    def body(self) -> bytes: ...
 
     @body.setter
     @abstractmethod
-    def body(self, value: bytes) -> None:
-        ...
+    def body(self, value: bytes) -> None: ...
 
     async def on_receive(self) -> None:
         if not self.content_encoding:
@@ -122,7 +120,9 @@ class CompressionMiddleware(BaseMiddleware):
 
         try:
             if "content-type" not in kwargs["headers"]:
-                msg, kwargs["headers"]["content-type"] = encode_message(msg)
+                msg, content_type = encode_message(msg)
+                if content_type:
+                    kwargs["headers"]["content-type"] = content_type
             msg, kwargs["headers"]["content-encoding"] = self.compressor_handler(msg)
         except Exception as exception:
             logger.error("Failed to compress message:", exc_info=exception)

@@ -58,13 +58,13 @@ files = [
 
 [[package]]
 name = "fast-depends"
-version = "2.4.8"
+version = "2.4.9"
 description = "FastDepends - extracted and cleared from HTTP domain logic FastAPI Dependency Injection System. Async and sync are both supported."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "fast_depends-2.4.8-py3-none-any.whl", hash = "sha256:bae27469643e94e3e8193162c5f641b87e08767df589139953043a8ca7179fe5"},
-    {file = "fast_depends-2.4.8.tar.gz", hash = "sha256:4fc6b1b1f378943f11fe80dfddc79c439c46a0e5084e60b91035248a8c29a604"},
+    {file = "fast_depends-2.4.9-py3-none-any.whl", hash = "sha256:6e44955523d095148c40aae6ed2ab80e4f6b995157073451e94960c1dd02a957"},
+    {file = "fast_depends-2.4.9.tar.gz", hash = "sha256:ca56542061ba8f8dde12021da3c0b82bc883394211941f03df38527b1d1c2c8a"},
 ]
 
 [package.dependencies]
@@ -105,13 +105,13 @@ types = ["aio-pika (>=9,<10)", "aiokafka (>=0.9,<0.12)", "confluent-kafka (>=2,<
 
 [[package]]
 name = "idna"
-version = "3.7"
+version = "3.8"
 description = "Internationalized Domain Names in Applications (IDNA)"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.6"
 files = [
-    {file = "idna-3.7-py3-none-any.whl", hash = "sha256:82fee1fc78add43492d3a1898bfa6d8a904cc97d8427f683ed8e798d07761aa0"},
-    {file = "idna-3.7.tar.gz", hash = "sha256:028ff3aadf0609c1fd278d8ea3089299412a7a8b9bd005dd08b9f8285bcb5cfc"},
+    {file = "idna-3.8-py3-none-any.whl", hash = "sha256:050b4e5baadcd44d760cedbd2b8e639f2ff89bbc7a5730fcc662954303377aac"},
+    {file = "idna-3.8.tar.gz", hash = "sha256:d838c2c0ed6fced7693d5e8ab8e734d5f8fda53a039c0164afb0b82e771e3603"},
 ]
 
 [[package]]
@@ -378,13 +378,13 @@ files = [
 
 [[package]]
 name = "typer"
-version = "0.12.3"
+version = "0.12.4"
 description = "Typer, build great CLIs. Easy to code. Based on Python type hints."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "typer-0.12.3-py3-none-any.whl", hash = "sha256:070d7ca53f785acbccba8e7d28b08dcd88f79f1fbda035ade0aecec71ca5c914"},
-    {file = "typer-0.12.3.tar.gz", hash = "sha256:49e73131481d804288ef62598d97a1ceef3058905aa536a1134f90891ba35482"},
+    {file = "typer-0.12.4-py3-none-any.whl", hash = "sha256:819aa03699f438397e876aa12b0d63766864ecba1b579092cc9fe35d886e34b6"},
+    {file = "typer-0.12.4.tar.gz", hash = "sha256:c9c1613ed6a166162705b3347b8d10b661ccc5d95692654d0fb628118f2c34e6"},
 ]
 
 [package.dependencies]
@@ -404,7 +404,10 @@ files = [
     {file = "typing_extensions-4.12.2.tar.gz", hash = "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8"},
 ]
 
+[extras]
+lz4 = ["lz4"]
+
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.12"
-content-hash = "9dc91ca658277adefd022d13eb9179fa4649fc9c6af3e6fb035cf21a7b1e97bc"
+python-versions = "^3.11"
+content-hash = "efe7a64a8fe8006649728245efa2e70a446ab9f815a0d1bb2115810e63b226fd"

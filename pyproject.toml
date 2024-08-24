@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "faststream-compressors"
-version = "0.2.0"
+version = "0.2.1"
 description = "A middleware for the FastStream framework to support message compression."
 repository = "https://github.com/ulbwa/faststream-compressors"
 authors = ["ульба <ulbwa@icloud.com>"]

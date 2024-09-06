@@ -23,5 +23,6 @@ class BaseCompressor(ABC):
 
 
 from faststream_compressors.compressors.gzip import *  # noqa: F401
+from faststream_compressors.compressors.lzma import *  # noqa: F401
 
-__all__ = ("BaseCompressor",) + gzip.__all__
+__all__ = ("BaseCompressor",) + gzip.__all__ + lzma.__all__

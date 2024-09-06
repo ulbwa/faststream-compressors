@@ -8,6 +8,10 @@ class LzmaCompressor(BaseCompressor):
 
     ENCODING = "lzma"
 
+    def __init__(self, check: int = -1, preset: int | None = None):
+        self.check = check
+        self.preset = preset
+
     def __call__(self, data: bytes) -> bytes:
         """
         Compresses the provided data using lzma.
@@ -15,7 +19,7 @@ class LzmaCompressor(BaseCompressor):
         :param data: Data to be compressed.
         :returns: Compressed data.
         """
-        return lzma.compress(data)
+        return lzma.compress(data, check=self.check, preset=self.preset)
 
 
 class LzmaDecompressor(BaseCompressor):

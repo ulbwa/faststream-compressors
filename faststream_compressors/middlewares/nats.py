@@ -1,5 +1,6 @@
-from faststream_compressors.middlewares import BaseDecompressionMiddleware
 from nats.aio.msg import Msg
+
+from faststream_compressors.middlewares import BaseDecompressionMiddleware
 
 
 class NatsDecompressionMiddleware(BaseDecompressionMiddleware):

@@ -3,8 +3,8 @@ from functools import partial
 from typing import Any, Callable, Sequence
 
 from faststream import BaseMiddleware
-from faststream.log.logging import logger
 from faststream.broker.message import encode_message
+from faststream.log.logging import logger
 from faststream.types import AsyncFunc
 
 from faststream_compressors.compressors import BaseCompressor
@@ -31,7 +31,8 @@ class BaseDecompressionMiddleware(BaseMiddleware):
         """
         Creates a partial function that can be used to instantiate the middleware.
 
-        :param decompressors: A sequence of decompressors or a single decompressor to use for message decompression.
+        :param decompressors: A sequence of decompressors or a single decompressor to use
+            for message decompression.
         :return: A partial function to instantiate the middleware.
         """
         if isinstance(decompressors, BaseCompressor):
@@ -95,7 +96,8 @@ class CompressionMiddleware(BaseMiddleware):
         """
         Creates a partial function that can be used to instantiate the middleware.
 
-        :param compressors: A sequence of compressors or a single compressor to use for message compression.
+        :param compressors: A sequence of compressors or a single compressor to use for
+            message compression.
         :return: A partial function to instantiate the middleware.
         """
         if isinstance(compressors, BaseCompressor):
@@ -130,4 +132,4 @@ class CompressionMiddleware(BaseMiddleware):
         return await call_next(msg, *args, **kwargs)
 
 
-__all__ = ("BaseDecompressionMiddleware", "CompressionMiddleware")
+__all__ = "BaseDecompressionMiddleware", "CompressionMiddleware"

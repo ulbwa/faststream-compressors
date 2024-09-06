@@ -41,7 +41,7 @@ class Lz4Compressor(BaseCompressor):
         Compresses the provided data using LZ4.
 
         :param data: Data to be compressed.
-        :returns: Compressed data.
+        :returns: LZ4-compressed data.
         """
         return lz4.frame.compress(
             data,
@@ -62,7 +62,7 @@ class Lz4Decompressor(BaseCompressor):
         """
         Decompresses the provided LZ4-compressed data.
 
-        :param data:Gzip-compressed data.
+        :param data: LZ4-compressed data.
         :returns: Decompressed data.
         """
         return lz4.frame.decompress(data)

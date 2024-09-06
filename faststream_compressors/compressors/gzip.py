@@ -21,7 +21,7 @@ class GzipCompressor(BaseCompressor):
         Compresses the provided data using gzip.
 
         :param data: Data to be compressed.
-        :returns: Compressed data.
+        :returns: Gzip-compressed data.
         """
         return gzip.compress(data, compresslevel=self.compress_level)
 
@@ -35,7 +35,7 @@ class GzipDecompressor(BaseCompressor):
         """
         Decompresses the provided gzip-compressed data.
 
-        :param data:Gzip-compressed data.
+        :param data: Gzip-compressed data.
         :returns: Decompressed data.
         """
         return gzip.decompress(data)

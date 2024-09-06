@@ -2,16 +2,6 @@
 
 A middleware for the FastStream framework to support message compression.
 
-## ⚠️ Note: RPC Limitation
-
-Due to a bug in FastStream, middleware does not run after receiving a response from the broker, preventing message 
-decompression when using RPC. I've reported this issue to the FastStream developers, and we're hoping for a fix soon.
-
-In the meantime, you can register separate routers for RPC and Pub/Sub:
-
- - **RPC Router**: Enable only the DecompressionMiddleware.
- - **Pub/Sub Router**: Enable both DecompressionMiddleware and CompressionMiddleware.
-
 ## Example
 
 ```python
@@ -90,3 +80,10 @@ async def my_handler(data: str, encoding: str = Header("content-encoding")):
 async def ping():
     await broker.publish("My secret message", "my-subject")
 ```
+
+## ⚠️ Note: RPC Limitation (<=0.5.18)
+
+Due to a bug in FastStream <=0.5.18, middleware does not run after receiving a response from the broker, preventing message 
+decompression when using RPC. 
+
+Update faststream to 0.5.19 to use this middleware with rpc.

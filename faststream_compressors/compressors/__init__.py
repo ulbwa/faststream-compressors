@@ -6,7 +6,8 @@ class BaseCompressor(ABC):
     """
     Abstract base class for all compressors.
 
-    :cvar ENCODING: String representation of the compression scheme used. E.g. "gzip" and "lz4".
+    :cvar ENCODING: String representation of the compression scheme used.
+        E.g. "gzip" and "lz4".
     """
 
     ENCODING: ClassVar[str]
@@ -22,7 +23,19 @@ class BaseCompressor(ABC):
         """
 
 
-from faststream_compressors.compressors.gzip import *  # noqa: F401
-from faststream_compressors.compressors.lzma import *  # noqa: F401
+from faststream_compressors.compressors.gzip import (  # noqa: E402
+    GzipCompressor,
+    GzipDecompressor,
+)
+from faststream_compressors.compressors.lzma import (  # noqa: E402
+    LzmaCompressor,
+    LzmaDecompressor,
+)
 
-__all__ = ("BaseCompressor",) + gzip.__all__ + lzma.__all__
+__all__ = (
+    "BaseCompressor",
+    "GzipCompressor",
+    "GzipDecompressor",
+    "LzmaCompressor",
+    "LzmaDecompressor",
+)

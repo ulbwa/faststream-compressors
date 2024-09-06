@@ -38,7 +38,8 @@ class CompressorHandler(BaseCompressorHandler):
         Compresses the provided data using the sequence of compressors.
 
         :param data: The data to be compressed.
-        :return: A tuple of the compressed data and a comma-separated content-type header value.
+        :return: A tuple of the compressed data and a comma-separated content-type
+            header value.
         """
         encodings = []
         for compressor in self.compressors:

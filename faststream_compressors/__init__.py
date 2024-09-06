@@ -1,4 +1,15 @@
-from faststream_compressors.compressors import *
-from faststream_compressors.errors import *
+from faststream_compressors.compressors import (
+    GzipCompressor,
+    GzipDecompressor,
+    LzmaCompressor,
+    LzmaDecompressor,
+)
+from faststream_compressors.middlewares import CompressionMiddleware
 
-__all__ = compressors.__all__ + errors.__all__
+__all__ = (
+    "CompressionMiddleware",
+    "GzipCompressor",
+    "GzipDecompressor",
+    "LzmaCompressor",
+    "LzmaDecompressor",
+)

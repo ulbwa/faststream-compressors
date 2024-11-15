@@ -20,3 +20,11 @@ faststream = { git = "https://github.com/airtai/faststream", branch = "0.6.0"}
 lz4 = [
     "lz4>=4.3.3",
 ]
+
+[tool.ruff]
+lint.select = ["E", "F", "W", "Q", "I", "B"]
+
+lint.fixable = ["ALL"]
+lint.unfixable = []
+
+line-length = 89

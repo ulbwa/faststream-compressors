@@ -1,27 +1,22 @@
-[tool.poetry]
+[project]
 name = "faststream-compressors"
-version = "0.2.2"
+version = "1.0.0"
 description = "A middleware for the FastStream framework to support message compression."
-repository = "https://github.com/ulbwa/faststream-compressors"
-authors = ["ульба <ulbwa@icloud.com>"]
 readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "faststream[cli, nats]",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-faststream = "^0.5.18"
-lz4 = {version = "^4.3.3", optional = true}
+[project.optional-dependencies]
+lz4 = [
+    "lz4>=4.3.3",
+]
 
-[tool.poetry.extras]
-lz4 = ["lz4"]
+[tool.uv.sources]
+faststream = { git = "https://github.com/airtai/faststream", branch = "0.6.0"}
 
-[tool.ruff]
-select = ["E", "F", "W", "Q", "I"]
-
-fixable = ["ALL"]
-unfixable = []
-
-line-length = 89
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+lz4 = [
+    "lz4>=4.3.3",
+]

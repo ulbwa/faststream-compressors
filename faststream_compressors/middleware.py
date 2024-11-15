@@ -64,7 +64,9 @@ class BaseCompressionMiddleware(BaseMiddleware):
         if "Content-Encoding" in cmd.headers:
             return await call_next(cmd)
 
-        cmd.body, cmd.headers["content-type"] = encode_message(cmd.body)
+        cmd.body, content_type = encode_message(cmd.body)
+        if content_type is not None:
+            cmd.add_headers({"content-type": content_type})
 
         applied_encodings: list[str] = list()
 

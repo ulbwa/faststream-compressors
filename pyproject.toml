@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "faststream[cli, nats]",
+    "pre-commit>=4.0.1",
 ]
 
 [project.optional-dependencies]
@@ -19,6 +20,9 @@ faststream = { git = "https://github.com/airtai/faststream", branch = "0.6.0"}
 [dependency-groups]
 lz4 = [
     "lz4>=4.3.3",
+]
+dev = [
+    "pre-commit>=4.0.1",
 ]
 
 [tool.ruff]

@@ -9,21 +9,18 @@ dependencies = [
     "pre-commit>=4.0.1",
 ]
 
-[project.optional-dependencies]
-lz4 = [
-    "lz4>=4.3.3",
-]
-
-[tool.uv.sources]
-faststream = { git = "https://github.com/airtai/faststream", branch = "0.6.0"}
-
 [dependency-groups]
 lz4 = [
     "lz4>=4.3.3",
 ]
 dev = [
     "pre-commit>=4.0.1",
+    "pytest-asyncio>=0.24.0",
 ]
+
+[tool.uv.sources]
+faststream = { git = "https://github.com/airtai/faststream", branch = "0.6.0"}
+
 
 [tool.ruff]
 lint.select = ["E", "F", "W", "Q", "I", "B"]
@@ -32,3 +29,7 @@ lint.fixable = ["ALL"]
 lint.unfixable = []
 
 line-length = 89
+
+[tool.pytest.ini_options]
+testpaths = [ "tests" ]
+asyncio_mode = "auto"

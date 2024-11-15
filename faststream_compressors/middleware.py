@@ -1,8 +1,10 @@
 from typing import Any, Awaitable, Callable, Sequence
+
 from faststream import BaseMiddleware, ContextRepo
 from faststream.message import StreamMessage, encode_message
 from faststream.response import PublishCommand, PublishType
-from faststream_compressors import utils, exceptions, interfaces
+
+from faststream_compressors import exceptions, interfaces, utils
 
 
 class BaseCompressionMiddleware(BaseMiddleware):
@@ -43,9 +45,7 @@ class BaseCompressionMiddleware(BaseMiddleware):
         )
 
         if "identity" in applied_encodings:
-            raise exceptions.UnacceptableContentEncoding(
-                msg.headers["Content-Encoding"]
-            )
+            raise exceptions.UnacceptableContentEncoding(msg.headers["Content-Encoding"])
 
         for applied_encoding in applied_encodings:
             decompressor = self.decompressors.get(applied_encoding.casefold())
@@ -172,8 +172,8 @@ class BaseCompressionMiddleware(BaseMiddleware):
 class CompressionMiddleware(BaseMiddleware):
     def __init__(
         self,
-        compressors: Sequence[interfaces.Compressor],
-        decompressors: Sequence[interfaces.Decompressor],
+        compressors: Sequence[interfaces.Compressor] = (),
+        decompressors: Sequence[interfaces.Decompressor] = (),
     ):
         self.compressors: dict[str, list[interfaces.Compressor]] = dict()
         self.decompressors: dict[str, interfaces.Decompressor] = dict()
@@ -196,7 +196,8 @@ class CompressionMiddleware(BaseMiddleware):
                 x.publish_quality for x in self.compressors[compressor.ENCODING]
             ):
                 raise ValueError(
-                    f"Compressor with ENCODING={compressor.ENCODING!r} and publish_quality={compressor.publish_quality!r} already exists"
+                    f"Compressor with ENCODING={compressor.ENCODING!r} and "
+                    f"publish_quality={compressor.publish_quality!r} already exists"
                 )
 
             if compressor.filter is None:
@@ -218,7 +219,8 @@ class CompressionMiddleware(BaseMiddleware):
                     and compressor.publish_quality < compressor_wo_fn.publish_quality
                 ):
                     raise ValueError(
-                        "Cannot add a compressor with fn!=None when there is a compressor with fn=None and higher publish_quality"
+                        "Cannot add a compressor with fn!=None when there is a "
+                        "compressor with fn=None and higher publish_quality"
                     )
 
             self.compressors[compressor.ENCODING.casefold()].append(compressor)

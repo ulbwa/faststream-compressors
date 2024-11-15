@@ -1,8 +1,8 @@
 import gzip
-
-from faststream_compressors.compressors.base import BaseCompressor, BaseDecompressor
-from faststream_compressors import interfaces
 from typing import Any
+
+from faststream_compressors import interfaces
+from faststream_compressors.compressors.base import BaseCompressor, BaseDecompressor
 
 
 class GzipCompressor(BaseCompressor):

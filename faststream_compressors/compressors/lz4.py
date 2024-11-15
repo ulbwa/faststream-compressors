@@ -1,8 +1,9 @@
 from typing import Any
+
 import lz4.frame
 
-from faststream_compressors.compressors.base import BaseCompressor, BaseDecompressor
 from faststream_compressors import interfaces
+from faststream_compressors.compressors.base import BaseCompressor, BaseDecompressor
 
 
 class Lz4Compressor(BaseCompressor):

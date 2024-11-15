@@ -1,4 +1,5 @@
 from abc import ABC
+
 from faststream_compressors import interfaces
 
 

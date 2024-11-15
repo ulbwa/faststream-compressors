@@ -1,6 +1,8 @@
+from typing import Any
 import lz4.frame
 
-from faststream_compressors.compressors import BaseCompressor
+from faststream_compressors.compressors.base import BaseCompressor, BaseDecompressor
+from faststream_compressors import interfaces
 
 
 class Lz4Compressor(BaseCompressor):
@@ -15,6 +17,8 @@ class Lz4Compressor(BaseCompressor):
         content_checksum: bool = False,
         block_linked: bool = True,
         store_size: bool = False,
+        publish_quality: float = 1.0,
+        filter: interfaces.CompressFilter | None = None,
     ):
         """
         Initializes the Lz4Compressor.
@@ -36,7 +40,9 @@ class Lz4Compressor(BaseCompressor):
         self.block_linked = block_linked
         self.store_size = store_size
 
-    def __call__(self, data: bytes) -> bytes:
+        super().__init__(publish_quality=publish_quality, filter=filter)
+
+    def __call__(self, data: bytes) -> tuple[bytes, dict[str, Any]]:
         """
         Compresses the provided data using LZ4.
 
@@ -50,15 +56,15 @@ class Lz4Compressor(BaseCompressor):
             content_checksum=self.content_checksum,
             block_linked=self.block_linked,
             store_size=self.store_size,
-        )
+        ), {}
 
 
-class Lz4Decompressor(BaseCompressor):
+class Lz4Decompressor(BaseDecompressor):
     """A class for decompressing LZ4-compressed data."""
 
     ENCODING = "lz4"
 
-    def __call__(self, data: bytes) -> bytes:
+    def __call__(self, data: bytes, /, headers: dict[str, Any]) -> bytes:
         """
         Decompresses the provided LZ4-compressed data.
 
@@ -68,4 +74,4 @@ class Lz4Decompressor(BaseCompressor):
         return lz4.frame.decompress(data)
 
 
-__all__ = ("Lz4Compressor", "Lz4Decompressor")
+__all__ = "Lz4Compressor", "Lz4Decompressor"

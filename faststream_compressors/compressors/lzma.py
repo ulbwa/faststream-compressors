@@ -1,6 +1,8 @@
 import lzma
+from typing import Any
 
-from faststream_compressors.compressors import BaseCompressor
+from faststream_compressors.compressors.base import BaseCompressor, BaseDecompressor
+from faststream_compressors import interfaces
 
 
 class LzmaCompressor(BaseCompressor):
@@ -8,26 +10,34 @@ class LzmaCompressor(BaseCompressor):
 
     ENCODING = "lzma"
 
-    def __init__(self, check: int = -1, preset: int | None = None):
+    def __init__(
+        self,
+        check: int = -1,
+        preset: int | None = None,
+        publish_quality: float = 1.0,
+        filter: interfaces.CompressFilter | None = None,
+    ):
         self.check = check
         self.preset = preset
 
-    def __call__(self, data: bytes) -> bytes:
+        super().__init__(publish_quality=publish_quality, filter=filter)
+
+    def __call__(self, data: bytes) -> tuple[bytes, dict[str, Any]]:
         """
         Compresses the provided data using lzma.
 
         :param data: Data to be compressed.
         :returns: Compressed data.
         """
-        return lzma.compress(data, check=self.check, preset=self.preset)
+        return lzma.compress(data, check=self.check, preset=self.preset), {}
 
 
-class LzmaDecompressor(BaseCompressor):
+class LzmaDecompressor(BaseDecompressor):
     """A class for decompressing lzma-compressed data."""
 
     ENCODING = "lzma"
 
-    def __call__(self, data: bytes) -> bytes:
+    def __call__(self, data: bytes, /, headers: dict[str, Any]) -> bytes:
         """
         Decompresses the provided lzma-compressed data.
 
@@ -37,4 +47,4 @@ class LzmaDecompressor(BaseCompressor):
         return lzma.decompress(data)
 
 
-__all__ = ("LzmaCompressor", "LzmaDecompressor")
+__all__ = "LzmaCompressor", "LzmaDecompressor"
